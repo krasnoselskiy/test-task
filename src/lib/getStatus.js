@@ -1,40 +1,77 @@
-export const getStatus = (item) => {
-  if (item.importedAmount === 0 && item.importedIgnoredAmount === 0) {
-    return "not imported";
-  }
+import { STATUSES } from "./constants";
 
-  if (item.totalAmount === item.importedAmount) {
-    if (item.totalAmount === 0 && item.importedIgnoredAmount !== 0) {
-      return "fully imported";
-    }
-    return "fully imported";
-  }
-
+export const getStatusType = (item) => {
   if (item.isGettingRefunds || item.isGettingAddresses) {
-    return "fetching events";
+    return STATUSES.TYPES.FETCHING_EVENTS;
   }
 
   if (item.planUpgradeNeeded) {
-    return "upgrade";
+    return STATUSES.TYPES.UPGRADE;
   }
 
   if (!item.covered) {
-    return "buy";
+    return STATUSES.TYPES.BUY;
   }
 
   if (
     item.totalAmount !== item.importedAmount &&
     (item.totalAmount !== 0 || item.importedIgnoredAmount !== 0)
   ) {
-    return "incomplete import";
+    return STATUSES.TYPES.INCOMPLETE_IMPORT;
+  }
+
+  if (
+    item.totalAmount &&
+    item.importedAmount &&
+    item.totalAmount === item.importedAmount
+  ) {
+    if (item.totalAmount === 0 && item.importedIgnoredAmount !== 0) {
+      return STATUSES.TYPES.NOT_IMPORTED;
+    }
+    return STATUSES.TYPES.FULLY_IMPORTED;
+  }
+
+  if (
+    (item.importedAmount === 0 && item.importedIgnoredAmount === 0) ||
+    (!item.importedAmount && !item.importedIgnoredAmount)
+  ) {
+    return STATUSES.TYPES.NOT_IMPORTED;
   }
 };
 
-// Statuses State criteria:
-// **not imported** -->  importedAmount  === 0 and importedIgnoredAmount  === 0
-// **fully imported** --> totalAmount === importedAmount (and if totalAmount is 0, check if importedIgnoredAmount is not 0)
+const USDollar = new Intl.NumberFormat("en-US", {
+  style: "currency",
+  currency: "USD",
+});
 
-// **fetching events** --> if isGettingRefunds or isGettingAddresses are true
-// **upgrade** --> if planUpgradeNeeded is true
-// **buy** --> if covered is false
-// **incomplete import** --> if totalAmount !== importedAmount and (totalAmount !== 0 or importedIgnoredAmount !== 0)
+export const getStatus = (item) => {
+  const status = getStatusType(item);
+
+  if (status === STATUSES.TYPES.FULLY_IMPORTED) {
+    return `${USDollar.format(item.importedAmount)}`;
+  }
+
+  if (status === STATUSES.TYPES.NOT_IMPORTED) {
+    if (item.open) {
+      return STATUSES.LABELS.OPEN;
+    }
+
+    return STATUSES.LABELS.FETCHING_EVENTS;
+  }
+
+  if (status === STATUSES.TYPES.FETCHING_EVENTS) {
+    return STATUSES.LABELS.FETCHING_EVENTS;
+  }
+
+  if (status === STATUSES.TYPES.UPGRADE) {
+    return STATUSES.LABELS.UPGRADE;
+  }
+
+  if (status === STATUSES.TYPES.BUY) {
+    return STATUSES.LABELS.BUY;
+  }
+
+  if (status === STATUSES.TYPES.INCOMPLETE_IMPORT) {
+    return STATUSES.LABELS.INCOMPLETE_IMPORT;
+  }
+};

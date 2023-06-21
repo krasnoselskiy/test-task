@@ -1,25 +1,29 @@
 <script>
-  import { getStatus } from "../lib/getStatus";
-  import Button from "./Button.svelte";
+  import ButtoGroup from "./ButtoGroup.svelte";
+  import Status from "./Status.svelte";
 
   export let item;
-
-  let status = getStatus(item);
 </script>
 
 <tr
   class="border-b border-primary-200 bg-primary-100 text-neutral-800">
   <td class="whitespace-nowrap px-6 py-4 font-medium">
+    {#if item.financialEventGroupId}
+      <a
+        target="_blank"
+        href={`https://sellercentral.amazon.com/gp/payments-account/view-transactions.html?subview=groups&groupId=${item.financialEventGroupId}`} 
+        class="hover:underline"
+      >
+        {item.startDate} - {item.endDate}
+      </a>
+    {:else}
       {item.startDate} - {item.endDate}
+    {/if}
   </td>
   <td class="whitespace-nowrap px-6 py-4">
-    <span class="text-sm font-bold text-gray-900">{status}</span>
+   <Status item={item} />
   </td>
-  <td class="whitespace-nowrap px-6 py-4">
-      <Button type="primary" text="11" />
-      <Button type="danger" text="12" />
-      <!-- <Button>
-          <Icon src="{ChatBubbleLeftRight}" size="32" color="green" />
-      </Button> -->
+  <td class="whitespace-nowrap px-6 py-4 flex content-center align-middle justify-center">
+    <ButtoGroup />
   </td>
 </tr>
