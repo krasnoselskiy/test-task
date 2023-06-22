@@ -1,5 +1,4 @@
 import { writable } from "svelte/store";
-import { getSortedSettlements } from "../lib/getSettlementPriority";
 
 export default function () {
   const loading = writable(false);
@@ -17,14 +16,9 @@ export default function () {
       );
 
       const { record } = await response.json();
-      const sortedSettlements = getSortedSettlements(record.settlements);
-      const newRecord = {
-        pendingCount: record.pendingCount,
-        settlements: sortedSettlements,
-      };
 
       setTimeout(() => {
-        data.set(newRecord);
+        data.set(record);
         loading.set(false);
       }, 1_000); // Delay for testing preloaders
     } catch (e) {
