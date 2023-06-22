@@ -30,7 +30,7 @@
 {#if loading}
   <TableSkeleton count={6} />
 {:else if error}
-	<p class="te">Something went wrong</p>
+	<p class="text-center text-gray-600 text-[14px]">Something went wrong</p>
 {:else}
   <table class="min-w-full text-center text-sm font-light">
       <thead class="border-b font-medium">
@@ -40,7 +40,7 @@
         <th scope="col" class="px-6 py-4">
           <button 
             on:click={toggleShow}
-            class="underline hover:no-underline text- text-gray-600 text-[18px]"
+            class="underline hover:no-underline text-gray-600 text-[18px]"
           >
             {isShowAll ? 'View less' : 'View all'}
           </button>

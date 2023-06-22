@@ -12,7 +12,7 @@ export default function () {
 
     try {
       const response = await fetch(
-        // "https://api.jsonbin.io/v3/b/6492fa9f9d312622a3733f99"
+        // "https://api.jsonbin.io/v3/b/6492fa9f9d312622a3733f99" // for test case with 3 items
         "https://api.jsonbin.io/v3/b/6492fa818e4aa6225eb201e1"
       );
 
@@ -25,7 +25,6 @@ export default function () {
 
       setTimeout(() => {
         data.set(newRecord);
-        // error.set("awdaw");
         loading.set(false);
       }, 1_000); // Delay for testing preloaders
     } catch (e) {
