@@ -17,3 +17,22 @@ export const STATUSES = {
     OPEN: "Open",
   },
 };
+
+export const PRIORITIES = {
+  FULLY_IMPORTED: 1,
+  NOT_IMPORTED: 4,
+  FETCHING_EVENTS: 2,
+  UPGRADE: 3,
+  BUY: 3,
+  INCOMPLETE_IMPORT: 4,
+};
+
+export const BUTTONS = {
+  TYPES: {
+    PRIMARY: "primary",
+    SECONDARY: "secondary",
+    DANGER: "danger",
+    INFO: "info",
+    SUCCESS: "success",
+  },
+};

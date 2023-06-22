@@ -1,13 +1,8 @@
 <script>
-  import { onMount } from "svelte";
-  import { getData } from "./lib/getData"
+  import fetchStore from "./store"
   import Table from "./components/Table.svelte";
 
-  let tableData = [];
-
-  onMount(async () => {
-    tableData = await getData();
-  })
+	const [data, loading, error] = fetchStore();
 </script>
 
 <main>
@@ -23,7 +18,11 @@
         <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
           <div class="mx-auto max-w-2xl py-32 sm:py-12 lg:py-10">
             <div class="overflow-hidden">
-              <Table data={tableData} />
+              <Table
+                bind:loading={$loading}
+                bind:data={$data}
+                bind:error={$error}
+              />
             </div>
           </div>
         </div>

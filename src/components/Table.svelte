@@ -3,37 +3,63 @@
   import TableSkeleton from "./TableSkeleton.svelte";
 
   export let data;
-  const MAX_ROW_SIZE = 6;
+  export let loading;
+  export let error;
+  let isShowAll = false;
+  let settlements = [];
+
+  const toggleShow = () => {
+    isShowAll = !isShowAll;
+
+    if(isShowAll) {
+      settlements = data.settlements;
+      return;
+    }
+
+    settlements = data.settlements.slice(0, 6);
+  };
+
+
+  $: {
+    if(data.settlements?.length) {
+      settlements = data.settlements.slice(0, 6);
+    }
+  }
 </script>
 
-{#if Object.keys(data).length > 0}
-    <table class="min-w-full text-center text-sm font-light">
-        <thead class="border-b font-medium">
-        <tr>
-          <th scope="col" class="px-6 py-4 text-xl">Statements</th>
-          <th scope="col" class="px-6 py-4"></th>
-          <th scope="col" class="px-6 py-4">
-            <a href="/" class="underline hover:no-underline text-xl">View all</a>
-          </th>
-        </tr>
-        </thead>
-        <tbody>
-          {#each data.settlements as item, i}
-            {#if i+1 <= MAX_ROW_SIZE}
-              <TableRow item={item} />
-            {/if}
-          {/each}
-        </tbody>
-    </table>
-
-    {#if data.pendingCount > 0}
-      <TableSkeleton 
-        count={3} 
-        useText
-      />
-    {/if}
-{:else}
+{#if loading}
   <TableSkeleton count={6} />
+{:else if error}
+	<p class="te">Something went wrong</p>
+{:else}
+  <table class="min-w-full text-center text-sm font-light">
+      <thead class="border-b font-medium">
+      <tr>
+        <th scope="col" class="px-6 py-4 text-xl text-gray-600 text-[18px]">Statements</th>
+        <th scope="col" class="px-6 py-4"></th>
+        <th scope="col" class="px-6 py-4">
+          <button 
+            on:click={toggleShow}
+            class="underline hover:no-underline text- text-gray-600 text-[18px]"
+          >
+            {isShowAll ? 'View less' : 'View all'}
+          </button>
+        </th>
+      </tr>
+      </thead>
+      <tbody>
+        {#each settlements as item}
+          <TableRow item={item} />
+        {/each}
+      </tbody>
+  </table>
+
+  {#if data.pendingCount > 0}
+    <TableSkeleton 
+      count={3} 
+      useText
+    />
+  {/if}
 {/if}
 
 
