@@ -19,7 +19,6 @@
     settlements = data.settlements.slice(0, 6);
   };
 
-
   $: {
     if(data.settlements?.length) {
       settlements = data.settlements.slice(0, 6);
@@ -28,38 +27,42 @@
 </script>
 
 {#if loading}
-  <TableSkeleton count={6} />
+  <div class="table-wrap">
+    <TableSkeleton count={6} />
+  </div>
 {:else if error}
-	<p class="text-center text-gray-600 text-[14px]">Something went wrong</p>
+	<p class="error">Something went wrong</p>
 {:else}
-  <table class="min-w-full text-center text-sm font-light">
-      <thead class="border-b font-medium">
-      <tr>
-        <th scope="col" class="px-6 py-4 text-xl text-gray-600 text-[18px]">Statements</th>
-        <th scope="col" class="px-6 py-4"></th>
-        <th scope="col" class="px-6 py-4">
-          <button 
-            on:click={toggleShow}
-            class="underline hover:no-underline text-gray-600 text-[18px]"
-          >
-            {isShowAll ? 'View less' : 'View all'}
-          </button>
-        </th>
-      </tr>
+  <div class="table-wrap">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col" class="th">Statements</th>
+          <th scope="col" class="th"></th>
+          <th scope="col" class="th">
+            <button
+              on:click={toggleShow}
+              class="btn btn-plain thead-btn"
+            >
+              {isShowAll ? 'View less' : 'View all'}
+            </button>
+          </th>
+        </tr>
       </thead>
       <tbody>
         {#each settlements as item}
           <TableRow item={item} />
         {/each}
       </tbody>
-  </table>
+    </table>
 
-  {#if data.pendingCount > 0}
-    <TableSkeleton 
-      count={3} 
-      useText
-    />
-  {/if}
+    {#if data.pendingCount > 0}
+      <TableSkeleton 
+        count={3} 
+        useText
+      />
+    {/if}
+  </div>
 {/if}
 
 

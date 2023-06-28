@@ -6,24 +6,24 @@
 </script>
 
 <tr
-  class="border-b border-primary-200 bg-primary-100 text-neutral-800">
-  <td class="whitespace-nowrap px-6 py-4 font-medium">
+  class="tr">
+  <td class="td">
     {#if item.financialEventGroupId}
       <a
         target="_blank"
         href={`https://sellercentral.amazon.com/gp/payments-account/view-transactions.html?subview=groups&groupId=${item.financialEventGroupId}`} 
-        class="hover:underline text-gray-600"
+        class="link"
       >
         {item.startDate} - {item.endDate}
       </a>
     {:else}
-      <span class="text-gray-600">{item.startDate} - {item.endDate}</span>
+      <span>{item.startDate} - {item.endDate}</span>
     {/if}
   </td>
-  <td class="whitespace-nowrap px-6 py-4">
+  <td class="td">
    <Status item={item} />
   </td>
-  <td class="whitespace-nowrap px-6 py-4 flex content-center align-middle justify-center">
+  <td class="td">
     <ButtoGroup item={item} />
   </td>
 </tr>

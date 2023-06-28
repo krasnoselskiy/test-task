@@ -1,0 +1,26 @@
+.table {
+  width: 100%;
+  min-width: 650px;
+  margin-bottom: 10px;
+
+  &-wrap {
+    overflow-x: auto;
+    max-width: 680px;
+    margin: 0 auto;
+  }
+
+  th {
+    font-size: 18px;
+  }
+
+  td {
+    padding: 5px 0;
+    text-align: center;
+  }
+
+  .thead {
+    &-btn {
+      margin: 0 auto;
+    }
+  }
+}

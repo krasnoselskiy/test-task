@@ -5,4 +5,4 @@
   let status = getStatus(item);
 </script>
 
-<span class="text-sm font-medium text-gray-600">{status}</span>
+<span class="status">{status}</span>

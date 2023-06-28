@@ -7,18 +7,21 @@
   const buttons = getButtons(item);
 </script>
 
-{#each buttons as button}
-  <Button 
-    type={button.type} 
-    text={button.text}
-    disabled={button.disabled}
-  >
-    {#if button.icon}
-      <Icon
-        src={ChatBubbleLeftRight} 
-        size="22" 
-        color="white"
-      />
-    {/if}
-  </Button>
-{/each}
+<div class="buttons-group">
+  {#each buttons as button}
+    <Button 
+      type={button.type} 
+      text={button.text}
+      disabled={button.disabled}
+    >
+      {#if button.icon}
+        <Icon
+          src={ChatBubbleLeftRight} 
+          size="22" 
+          color="white"
+        />
+      {/if}
+    </Button>
+  {/each}
+</div>
+
